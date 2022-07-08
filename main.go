@@ -3,10 +3,9 @@ package main
 import (
 	"context"
 	"log"
-	"net"
 	"os"
 
-	"github.com/go-redis/redis/v8"
+	"example.com/m/v2/database"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 )
@@ -15,13 +14,13 @@ var ctx = context.Background()
 
 func main() {
 	app := fiber.New()
-	client := connectDatabase()
+	client := database.Connect()
 
 	app.Use(recover.New())
 
 	app.Get("/:flavour/:version", func(c *fiber.Ctx) error {
 
-		dbstate := checkDatabase(client)
+		dbstate := database.Check(client)
 
 		if(!dbstate) {
 			return fiber.ErrServiceUnavailable
@@ -50,23 +49,4 @@ func main() {
 	})
 
 	log.Fatal(app.Listen(":" + os.Getenv("PORT")))
-}
-
-func connectDatabase() *redis.Client{
-	client := redis.NewClient(&redis.Options{
-        Addr:     net.JoinHostPort(os.Getenv("REDISHOST"),os.Getenv("REDISPORT")),
-		Password: os.Getenv("REDISPASSWORD"),
-		Username: os.Getenv("REDISUSER"),
-    })
-	return client
-}
-
-func checkDatabase(client *redis.Client) bool {
-	_, err := client.Ping(ctx).Result()
-
-	if(err != nil){
-		return false
-	} else {
-		return true
-	}
 }
