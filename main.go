@@ -17,6 +17,7 @@ func main() {
 	client := database.Connect()
 
 	app.Use(recover.New())
+	app.Static("/", "./public")
 
 	app.Get("/:flavour/:version", func(c *fiber.Ctx) error {
 
