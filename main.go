@@ -7,10 +7,8 @@ import (
 
 	"example.com/m/v2/database"
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cache"
 	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/gofiber/fiber/v2/middleware/logger"
-	"github.com/gofiber/fiber/v2/middleware/monitor"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 )
 
@@ -32,8 +30,6 @@ func main() {
 	app.Use(logger.New())
 	app.Use(recover.New())
 	app.Use(compress.New())
-	app.Use(cache.New())
-	app.Get("/metrics", monitor.New(monitor.Config{Title: "Metrics"}))
 	app.Static("/", "./public")
 
 	app.Get("/:flavour/:version", func(c *fiber.Ctx) error {
