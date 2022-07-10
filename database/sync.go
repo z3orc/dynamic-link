@@ -1,20 +1,20 @@
-package fetch
+package database
 
 import (
 	"context"
 	"fmt"
 	"strings"
 
-	"example.com/m/v2/database"
+	"example.com/m/v2/util"
 	"github.com/tidwall/gjson"
 )
 
 func SyncVanilla() {
 
 	ctx := context.Background()
-	client := database.Connect()
+	client := Connect()
 
-	jsonFromWeb, _ := GetJson("https://launchermeta.mojang.com/mc/game/version_manifest_v2.json")
+	jsonFromWeb, _ := util.GetJson("https://launchermeta.mojang.com/mc/game/version_manifest_v2.json")
 
 	length := gjson.Get(jsonFromWeb, "versions.#").Int()
 
@@ -26,7 +26,7 @@ func SyncVanilla() {
 
 		build := gjson.Get(jsonFromWeb, path)
 
-		buildJson, _ := GetJson(build.String())
+		buildJson, _ := util.GetJson(build.String())
 
 		download_url := gjson.Get(buildJson, "downloads.server.url").String()
 		old_download_url, _ := client.HGet(ctx, "vanilla", id).Result()
