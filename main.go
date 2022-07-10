@@ -2,65 +2,62 @@ package main
 
 import (
 	"context"
-	"log"
-	"os"
 
 	"example.com/m/v2/database"
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/compress"
-	"github.com/gofiber/fiber/v2/middleware/logger"
-	"github.com/gofiber/fiber/v2/middleware/recover"
 )
 
 var ctx = context.Background()
 var projectName = "mc-dynamic-link"
 
 func main() {
-	app := fiber.New(fiber.Config{
-		Prefork:       false,
-		CaseSensitive: false,
-		StrictRouting: false,
-		GETOnly: true,
-		DisableKeepalive: true,
-		ServerHeader:  projectName,
-		AppName: projectName,
-	})
-	client := database.Connect()
 
-	app.Use(logger.New())
-	app.Use(recover.New())
-	app.Use(compress.New())
-	app.Static("/", "./public")
+	database.SyncPaper()
 
-	app.Get("/:flavour/:version", func(c *fiber.Ctx) error {
+	// app := fiber.New(fiber.Config{
+	// 	Prefork:       false,
+	// 	CaseSensitive: false,
+	// 	StrictRouting: false,
+	// 	GETOnly: true,
+	// 	DisableKeepalive: true,
+	// 	ServerHeader:  projectName,
+	// 	AppName: projectName,
+	// })
+	// client := database.Connect()
 
-		dbstate := database.Check(client)
+	// app.Use(logger.New())
+	// app.Use(recover.New())
+	// app.Use(compress.New())
+	// app.Static("/", "./public")
 
-		if(!dbstate) {
-			return fiber.ErrServiceUnavailable
-		}
+	// app.Get("/:flavour/:version", func(c *fiber.Ctx) error {
 
-		flavour := c.Params("flavour")
-		version := c.Params("version")
+	// 	dbstate := database.Check(client)
 
-		exists, err := client.HExists(ctx, flavour, version).Result()
+	// 	if(!dbstate) {
+	// 		return fiber.ErrServiceUnavailable
+	// 	}
 
-		if !exists {
-			return fiber.ErrNotFound
-		}
+	// 	flavour := c.Params("flavour")
+	// 	version := c.Params("version")
 
-		if err != nil {
-			return fiber.ErrInternalServerError
-		}
+	// 	exists, err := client.HExists(ctx, flavour, version).Result()
 
-		resMap, err := client.HGet(ctx, flavour, version).Result()
+	// 	if !exists {
+	// 		return fiber.ErrNotFound
+	// 	}
 
-		if err != nil {
-			return fiber.ErrInternalServerError
-		}
+	// 	if err != nil {
+	// 		return fiber.ErrInternalServerError
+	// 	}
 
-		return c.Redirect(resMap)
-	})
+	// 	resMap, err := client.HGet(ctx, flavour, version).Result()
 
-	log.Fatal(app.Listen(":" + os.Getenv("PORT")))
+	// 	if err != nil {
+	// 		return fiber.ErrInternalServerError
+	// 	}
+
+	// 	return c.Redirect(resMap)
+	// })
+
+	// log.Fatal(app.Listen(":" + os.Getenv("PORT")))
 }

@@ -44,3 +44,46 @@ func SyncVanilla() {
 
 	}
 }
+
+func SyncPaper(){
+	ctx := context.Background()
+	client := Connect()
+
+	jsonFromWeb, _ := util.GetJson("https://api.papermc.io/v2/projects/paper")
+
+	length := gjson.Get(jsonFromWeb, "versions.#").Int()
+
+	for i := 0; i < int(length); i++ {
+		id := gjson.Get(jsonFromWeb, fmt.Sprint("versions.", i)).String()
+
+		versionJsonPath := fmt.Sprint("https://api.papermc.io/v2/projects/paper/versions/", id)
+		versionJson, _ := util.GetJson(versionJsonPath)
+		buildLength := gjson.Get(versionJson, "builds.#").Int()
+		build := gjson.Get(versionJson, (fmt.Sprint("builds.", buildLength - 1))).Int()
+
+		buildJsonPath := fmt.Sprint(versionJsonPath, "/builds/", build)
+		buildJson, _ := util.GetJson(buildJsonPath)
+
+		fileName := gjson.Get(buildJson, "downloads.application.name")
+
+		downloadUrl := fmt.Sprint(buildJsonPath, "/downloads/", fileName)
+
+		oldDownloadUrl, _ := client.HGet(ctx, "paper", id).Result()
+
+		if(downloadUrl == oldDownloadUrl){
+			break
+		}
+
+		if downloadUrl != "" {
+			fmt.Println(id, downloadUrl)
+			client.HSet(ctx, "paper", id, downloadUrl)
+		} else {
+			fmt.Println("No download url")
+		}
+	}
+
+}
+
+func syncPurpur(){
+
+}
