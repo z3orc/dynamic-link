@@ -50,15 +50,5 @@ func main() {
 		return c.Redirect(resMap)
 	})
 
-	// app.Get("/sync", func(c *fiber.Ctx) error {
-	// 	if !syncing {
-	// 		syncing = true
-	// 		fetch.SyncVanilla()
-	// 		syncing = false
-	// 	}
-		
-	// 	return c.Redirect("/")
-	// })
-
 	log.Fatal(app.Listen(":" + os.Getenv("PORT")))
 }
