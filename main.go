@@ -13,7 +13,7 @@ import (
 )
 
 var ctx = context.Background()
-var projectName = "mc-dynamic-link"
+var projectName = "minecraft-dynamic-link"
 
 func main() {
 	app := fiber.New(fiber.Config{
