@@ -10,6 +10,7 @@ import (
 
 var ctx = context.Background()
 
+// Connect returns a redis client
 func Connect() *redis.Client{
 	client := redis.NewClient(&redis.Options{
         Addr:     net.JoinHostPort(os.Getenv("REDISHOST"),os.Getenv("REDISPORT")),
@@ -19,6 +20,7 @@ func Connect() *redis.Client{
 	return client
 }
 
+// Check the state of a redis client
 func Check(client *redis.Client) bool {
 	_, err := client.Ping(ctx).Result()
 

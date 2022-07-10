@@ -7,37 +7,58 @@
         <link rel="stylesheet" href="./stilark.css" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@500&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Outfit&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet" />
         <title>./mcdu</title>
     </head>
 
     <body>
         <div class="box">
-            <h1>./mc-dynamic-url</h1>
-            <p>An easier way of downloading a specific version of the minecraft-server JAR. It supports downloading JARs from Mojang, Paper and Purpur.</p>
+            <h1>(MCDL) Minecraft Dynamic Link</h1>
+            <hr />
+            <p>An easy () and lightning fast (⚡) way of downloading a specific Minecraft-server JAR!</p>
 
-            <!-- <hr /> -->
+            <p>
+                Instead of manually finding the download link to a particular JAR, ./mc-dynamic-link will automatically find the download link and redirect you.
+                The JARs are found using the official APIs and downloaded directly from the official sources. The project supports downloading JARs from Mojang,
+                PaperMC, and Purpur.
+            </p>
+            <p>
+                This project is currently in closed testing and therefore unavailable to the general public. The current plan is to release the project sometime
+                in 2022, however, the date is still TBD.
+            </p>
 
-            <!-- <h2>Usage:</h2>
+            <hr />
+
+            <h2>Usage:</h2>
             <p>Just use: <code>https://ender.deno.dev/*flavour*/*version*/</code> to download a certain JAR.</p>
             <p>
                 Flavour would be either vanilla, paper or purpur (based on which server-jar you prefer.) and version would be the minecraft version, 1.19 -
                 1.18.2 - etc.
-            </p> -->
-            <!-- 
-            <hr>
+            </p>
+
+            <hr />
 
             <h2>More:</h2>
-            <p>If you would like information, including the download url, in JSON, you can remove the
-                <code>/download</code> at the end. Example:
+            <p>
+                If you would like information, including the download url, in JSON, you can remove the <code>/download</code> at the end. Example:
                 <code>https://mcdl.smoothcaveman.net/vanilla/1.18.1/</code>
-            </p> -->
+            </p>
+            <div class="button" onclick="redirectToGithub()">
+                <img id="github" src="../images/GitHub-Mark-Light-120px-plus.png" alt="Github" />
+                Github
+            </div>
         </div>
-        <!-- <div class="box">
-            <h2>Status</h2>
-        </div> -->
+
         <p class="notice">
             This project is not affiliated with Microsoft/Mojang, PaperMC or Purpur. <br />
             <!-- Contact: mcdl@smoothcaveman.net -->
         </p>
+        <script>
+            function redirectToGithub() {
+                window.location.href = "https://github.com/z3orc/mc-dynamic-url";
+            }
+        </script>
     </body>
 </html>
