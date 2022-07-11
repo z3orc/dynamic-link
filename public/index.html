@@ -1,20 +1,16 @@
-<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="./stilark.css" />
+        <link rel="stylesheet" href="stilark.css" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@500&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css2?family=Outfit&display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet" />
-        <title>./mcdu</title>
+        <title>Dynamic Link</title>
     </head>
-
     <body>
-        <div class="box">
+        <main>
             <h1>Dynamic Link</h1>
             <hr />
             <p>An easy and lightning fast (⚡) way of downloading a specific Minecraft-server JAR!</p>
@@ -31,34 +27,46 @@
 
             <hr />
 
-            <h2>Usage:</h2>
-            <p>Just use: <code>https://ender.deno.dev/*flavour*/*version*/</code> to download a certain JAR.</p>
+            <h2>Browser</h2>
+
             <p>
-                Flavour would be either vanilla, paper or purpur (based on which server-jar you prefer.) and version would be the minecraft version, 1.19 -
-                1.18.2 - etc.
+                Type the URL <code>https://dynamic.z3orc.com/*flavour*/*version*/</code> into the addressbar of your browser, then fill in which flavour (that
+                would be vanilla, paper or purpur) and the Minecraft version you prefer. You will then be redirected to the download url and your download
+                should start shortly.
             </p>
 
             <hr />
 
-            <h2>More:</h2>
+            <h2>Command-line</h2>
+
+            <p>Using WGET: <code>WGET https://dynamic.z3orc.com/*flavour*/*version*/</code></p>
+            <p>Using CURL: <code>CURL https://dynamic.z3orc.com/*flavour*/*version*/</code></p>
+
+            <p>Before running switch out flavour and version with your desired flavour (vanilla, paper or purpur) and Minecraft version.</p>
+
+            <!-- 
+            <h2>Usage:</h2>
+            <p>
+                Just use:
+
+                <code>" https://dynamic.z3orc.com/*flavour*/*version*/ "</code>
+
+                to download a certain JAR.
+            </p>
+            <p>
+                Flavour would be either vanilla, paper or purpur (based on which server-jar you prefer.) and version would be the minecraft version, 1.19 -
+                1.18.2 - etc.
+            </p>
+            <hr />
             <p>
                 If you would like information, including the download url, in JSON, you can remove the <code>/download</code> at the end. Example:
                 <code>https://mcdl.smoothcaveman.net/vanilla/1.18.1/</code>
+            </p> -->
+            <hr />
+            <p class="notice">
+                This project is not affiliated with Microsoft/Mojang, PaperMC or Purpur. <br />
+                <!-- Contact: mcdl@smoothcaveman.net -->
             </p>
-            <div class="button" onclick="redirectToGithub()">
-                <img id="github" src="../images/GitHub-Mark-Light-120px-plus.png" alt="Github" />
-                Github
-            </div>
-        </div>
-
-        <p class="notice">
-            This project is not affiliated with Microsoft/Mojang, PaperMC or Purpur. <br />
-            <!-- Contact: mcdl@smoothcaveman.net -->
-        </p>
-        <script>
-            function redirectToGithub() {
-                window.location.href = "https://github.com/z3orc/mc-dynamic-url";
-            }
-        </script>
+        </main>
     </body>
 </html>
