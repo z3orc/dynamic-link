@@ -35,7 +35,7 @@ func main() {
 	app.Use(logger.New())
 	app.Use(recover.New())
 	app.Use(compress.New())
-	// app.Static("/", "./public")
+	app.Static("/", "./public")
 
 	app.Get("/:flavour/:version", func(c *fiber.Ctx) error {
 
