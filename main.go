@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 	"time"
 
 	"example.com/m/v2/database"
@@ -15,11 +16,12 @@ import (
 )
 
 var ctx = context.Background()
-var projectName = "mc-dynamic-link"
+var projectName = "Dynamic Link"
 
 func main() {
 
 	go heartBeat()
+	go database.Sync()
 
 	app := fiber.New(fiber.Config{
 		Prefork:       false,
@@ -30,6 +32,7 @@ func main() {
 		ServerHeader:  projectName,
 		AppName: projectName,
 	})
+
 	client := database.Connect()
 
 	app.Use(logger.New())
@@ -45,8 +48,8 @@ func main() {
 			return fiber.ErrServiceUnavailable
 		}
 
-		flavour := c.Params("flavour")
-		version := c.Params("version")
+		flavour := strings.ToLower(c.Params("flavour"))
+		version := strings.ToLower(c.Params("version"))
 
 		exists, err := client.HExists(ctx, flavour, version).Result()
 

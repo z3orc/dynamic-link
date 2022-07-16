@@ -75,6 +75,13 @@ func syncVanilla() string{
 
 		id := gjson.Get(jsonFromWeb, (fmt.Sprint("versions.", i, ".id"))).String()
 		id = strings.ReplaceAll(id, " ", "-")
+		isSnapshot := strings.Contains(id, "w")
+		isRC := strings.Contains(id, "rc")
+		isPre := strings.Contains(id, "pre")
+
+		if isSnapshot || isPre || isRC {
+			continue
+		}
 
 		build := gjson.Get(jsonFromWeb, path)
 
@@ -161,7 +168,7 @@ func syncPurpur() string{
 
 		downloadUrl := fmt.Sprint(buildPath, "/download")
 
-		oldDownloadUrl, _ := client.HGet(ctx, "paper", id).Result()
+		oldDownloadUrl, _ := client.HGet(ctx, "purpur", id).Result()
 
 		if(downloadUrl == oldDownloadUrl){
 			break
@@ -169,7 +176,7 @@ func syncPurpur() string{
 
 		if downloadUrl != "" {
 			fmt.Println("[PURPUR]: ", id, downloadUrl)
-			client.HSet(ctx, "paper", id, downloadUrl)
+			client.HSet(ctx, "purpur", id, downloadUrl)
 		} else {
 			fmt.Println("No download url")
 		}
