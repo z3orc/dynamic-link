@@ -95,6 +95,7 @@ func syncVanilla() string{
 		}
 
 	}
+	client.Close()
 	return ""
 }
 
@@ -135,6 +136,7 @@ func syncPaper() string{
 			fmt.Println("No download url")
 		}
 	}
+	client.Close()
  	return ""
 }
 
@@ -172,5 +174,6 @@ func syncPurpur() string{
 			fmt.Println("No download url")
 		}
 	}
+	client.Close()
 	return ""
 }
