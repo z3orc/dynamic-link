@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"os"
 	"strings"
@@ -74,10 +73,7 @@ func main() {
 }
 
 func heartBeat() {
-	func(){
-		for range time.Tick(time.Hour * 48) {
-			database.Sync()
-		}
-	}()
-    fmt.Scanln()
+	for range time.Tick(time.Hour * 48) {
+		database.Sync()
+	}
 }
