@@ -10,8 +10,10 @@ import (
 	"example.com/m/v2/database"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/compress"
+	"github.com/gofiber/fiber/v2/middleware/csrf"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
+	"github.com/gofiber/fiber/v2/utils"
 )
 
 var ctx = context.Background()
@@ -37,6 +39,15 @@ func main() {
 	app.Use(logger.New())
 	app.Use(recover.New())
 	app.Use(compress.New())
+
+	app.Use(csrf.New(csrf.Config{
+		KeyLookup:      "header:X-Csrf-Token",
+		CookieName:     "csrf_",
+		CookieSameSite: "Strict",
+		Expiration:     1 * time.Hour,
+		KeyGenerator:   utils.UUID,
+	}))
+
 	app.Static("/", "./public")
 
 	app.Get("/:flavour/:version", func(c *fiber.Ctx) error {
