@@ -14,7 +14,7 @@ import (
 
 func HeartBeat() {
 	func(){
-		for range time.Tick(time.Hour * 48) {
+		for range time.Tick(time.Hour * 12) {
 			Sync()
 		}
 	}()
