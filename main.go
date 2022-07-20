@@ -66,8 +66,9 @@ func main() {
 		return c.Redirect(resMap)
 	})
 
+	database.Sync()
+	go database.HeartBeat()
+
 	log.Fatal(app.Listen(":" + os.Getenv("PORT")))
 
-	go database.Sync()
-	go database.HeartBeat()
 }
