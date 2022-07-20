@@ -23,6 +23,8 @@ func HeartBeat() {
 
 func Sync(){
 
+	fmt.Println("Sync database with endpoints...")
+
 	var wg sync.WaitGroup
 	wg.Add(3)
 
@@ -51,6 +53,7 @@ func Sync(){
 	}()
 
 	wg.Wait()
+	fmt.Println("Syncing completed")
 }
 
 func initSync(url string) (context.Context, *redis.Client, string,string) {
@@ -125,7 +128,7 @@ func syncPaper() string{
 
 	length := gjson.Get(jsonFromWeb, "versions.#").Int()
 
-	for i := 0; i < int(length); i++ {
+	for i := (length - 1); i > -1; i-- {
 		id := gjson.Get(jsonFromWeb, fmt.Sprint("versions.", i)).String()
 
 		versionJsonPath := fmt.Sprint("https://api.papermc.io/v2/projects/paper/versions/", id)
@@ -166,7 +169,7 @@ func syncPurpur() string{
 
 	length := gjson.Get(jsonFromWeb, "versions.#").Int()
 
-	for i := 0; i < int(length); i++ {
+	for i := (length - 1); i > -1; i-- {
 		id := gjson.Get(jsonFromWeb, fmt.Sprint("versions.", i)).String()
 
 		versionJsonPath := fmt.Sprint("https://api.purpurmc.org/v2/purpur/", id)
