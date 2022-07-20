@@ -5,6 +5,6 @@ WORKDIR /app
 ADD . .
 RUN go mod download
 
-RUN go build -o /main.go
+RUN go build ./main.go
 
-CMD [ "/main" ]
+CMD [ "main" ]
