@@ -2,7 +2,7 @@ FROM golang:alpine
 
 WORKDIR /app
 
-COPY ./* ./
+ADD . .
 RUN go mod download
 
 RUN go build -o /main.go
