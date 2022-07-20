@@ -13,26 +13,25 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/recover"
 )
 
+var (
+	ctx = context.Background()
+	projectName = "Dynamic Link"
+)
+
 func main() {
-
-	var (
-		ctx = context.Background()
-		projectName = "Dynamic Link"
-		appConfig = fiber.Config{
-			Prefork:       false,
-			CaseSensitive: false,
-			StrictRouting: false,
-			GETOnly: true,
-			DisableKeepalive: true,
-			ServerHeader:  projectName,
-			AppName: projectName,
-		}
-	)
-
-	go database.Sync()
 	go database.HeartBeat()
+	database.Sync()
 
-	app := fiber.New(appConfig)
+	app := fiber.New(fiber.Config{
+		Prefork:       false,
+		CaseSensitive: false,
+		StrictRouting: false,
+		GETOnly: true,
+		DisableKeepalive: true,
+		ServerHeader:  projectName,
+		AppName: projectName,
+	})
+	
 	client := database.Connect()
 
 	app.Use(logger.New())
