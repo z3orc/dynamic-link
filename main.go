@@ -19,7 +19,7 @@ var projectName = "Dynamic Link"
 func main() {
 
 	go database.HeartBeat()
-	go database.Sync()
+	database.Sync()
 
 	app := fiber.New(fiber.Config{
 		Prefork:       false,
