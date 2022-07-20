@@ -2,11 +2,9 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"os"
 	"strings"
-	"time"
 
 	"example.com/m/v2/database"
 	"github.com/gofiber/fiber/v2"
@@ -20,7 +18,7 @@ var projectName = "Dynamic Link"
 
 func main() {
 
-	go heartBeat()
+	go database.HeartBeat()
 	go database.Sync()
 
 	app := fiber.New(fiber.Config{
@@ -71,13 +69,4 @@ func main() {
 	})
 
 	log.Fatal(app.Listen(":" + os.Getenv("PORT")))
-}
-
-func heartBeat() {
-	func(){
-		for range time.Tick(time.Hour * 48) {
-			database.Sync()
-		}
-	}()
-    fmt.Scanln()
 }

@@ -5,11 +5,21 @@ import (
 	"fmt"
 	"strings"
 	"sync"
+	"time"
 
 	"example.com/m/v2/util"
 	"github.com/go-redis/redis/v8"
 	"github.com/tidwall/gjson"
 )
+
+func HeartBeat() {
+	func(){
+		for range time.Tick(time.Hour * 48) {
+			Sync()
+		}
+	}()
+    fmt.Scanln()
+}
 
 func Sync(){
 
@@ -19,7 +29,7 @@ func Sync(){
 	go func() {
 		err := syncPurpur()
 		if err != "" {
-			fmt.Println("[PURPUR]: ",err)
+			fmt.Println("[PURPUR]:  ",err)
 		}
 		wg.Done()
 	}()
@@ -35,7 +45,7 @@ func Sync(){
 	go func() {
 		err := syncPaper()
 		if err != "" {
-			fmt.Println("[PAPER]: ",err)
+			fmt.Println("[PAPER]:   ",err)
 		}
 		wg.Done()
 	}()
@@ -137,7 +147,7 @@ func syncPaper() string{
 		}
 
 		if downloadUrl != "" {
-			fmt.Println("[PAPER]: ", id, downloadUrl)
+			fmt.Println("[PAPER]:   ", id, downloadUrl)
 			client.HSet(ctx, "paper", id, downloadUrl)
 		} else {
 			fmt.Println("No download url")
@@ -175,7 +185,7 @@ func syncPurpur() string{
 		}
 
 		if downloadUrl != "" {
-			fmt.Println("[PURPUR]: ", id, downloadUrl)
+			fmt.Println("[PURPUR]:  ", id, downloadUrl)
 			client.HSet(ctx, "purpur", id, downloadUrl)
 		} else {
 			fmt.Println("No download url")
