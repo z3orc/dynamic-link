@@ -5,7 +5,6 @@ import (
 	"log"
 	"os"
 	"strings"
-	"time"
 
 	"example.com/m/v2/database"
 	"github.com/gofiber/fiber/v2"
@@ -16,14 +15,17 @@ import (
 	"github.com/gofiber/fiber/v2/utils"
 )
 
-var ctx = context.Background()
-var projectName = "Dynamic Link"
+// Initialize various "global" variables
+var (
+	ctx = context.Background()
+	projectName = "Dynamic Link"
+)
 
 func main() {
+	// Initialize periodic database sync
+	go database.PeriodicSync()
 
-	go heartBeat()
-	go database.Sync()
-
+	// Initialize server
 	app := fiber.New(fiber.Config{
 		Prefork:       false,
 		CaseSensitive: false,
@@ -33,9 +35,11 @@ func main() {
 		ServerHeader:  projectName,
 		AppName: projectName,
 	})
-
+	
+	// Initialize database client
 	client := database.Connect()
 
+	// Initialize middleware
 	app.Use(logger.New())
 	app.Use(recover.New())
 	app.Use(compress.New())
@@ -50,6 +54,7 @@ func main() {
 
 	app.Static("/", "./public")
 
+	// Main route, used to fetch download url and redirect to the correct endpoint
 	app.Get("/:flavour/:version", func(c *fiber.Ctx) error {
 
 		dbstate := database.Check(client)
@@ -80,11 +85,7 @@ func main() {
 		return c.Redirect(resMap)
 	})
 
+	// Starting server + logging fatal errors
 	log.Fatal(app.Listen(":" + os.Getenv("PORT")))
-}
 
-func heartBeat() {
-	for range time.Tick(time.Hour * 48) {
-		database.Sync()
-	}
 }
