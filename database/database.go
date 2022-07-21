@@ -10,7 +10,7 @@ import (
 
 var ctx = context.Background()
 
-// Connect returns a redis client
+// Connects & returns a redis client
 func Connect() *redis.Client{
 	client := redis.NewClient(&redis.Options{
         Addr:     net.JoinHostPort(os.Getenv("REDISHOST"),os.Getenv("REDISPORT")),

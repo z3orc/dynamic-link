@@ -12,14 +12,15 @@ import (
 	"github.com/tidwall/gjson"
 )
 
-func HeartBeat() {
+// PeriodicSync is a function that runs periodically to sync the database with the endpoints
+func PeriodicSync() {
 	for range time.Tick(time.Hour * 12) {
 		Sync()
 	}
 }
 
+//Runs all sync functions using concurrent go routines
 func Sync(){
-
 	fmt.Println("Sync database with endpoints...")
 
 	var wg sync.WaitGroup
@@ -53,6 +54,7 @@ func Sync(){
 	fmt.Println("Syncing completed")
 }
 
+//Code which run at the start of every sync function
 func initSync(url string) (context.Context, *redis.Client, string,string) {
 	ctx := context.Background()
 	client := Connect()
@@ -71,6 +73,7 @@ func initSync(url string) (context.Context, *redis.Client, string,string) {
 	return ctx, client, jsonFromWeb, ""
 }
 
+//Syncs the database with the vanilla endpoint. Tailord to the vanilla endpoint.
 func syncVanilla() string{
  	ctx, client, jsonFromWeb, err := initSync("https://launchermeta.mojang.com/mc/game/version_manifest_v2.json")
 
@@ -116,6 +119,7 @@ func syncVanilla() string{
 	return ""
 }
 
+//Syncs the database with the paper endpoint. Tailord to the paper endpoint.
 func syncPaper() string{
 	ctx, client, jsonFromWeb, err := initSync("https://api.papermc.io/v2/projects/paper")
 
@@ -157,6 +161,7 @@ func syncPaper() string{
  	return ""
 }
 
+//Syncs the database with the purpur endpoint. Tailord to the purpur endpoint.
 func syncPurpur() string{
 	ctx, client, jsonFromWeb, err := initSync("https://api.purpurmc.org/v2/purpur")
 
