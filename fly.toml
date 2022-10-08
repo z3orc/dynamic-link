@@ -1,6 +1,6 @@
-# fly.toml file generated for dynamic-link on 2022-10-06T19:20:00+02:00
+# fly.toml file generated for dynamiclink on 2022-10-08T14:50:19+02:00
 
-app = "dynamic-link"
+app = "dynamiclink"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
