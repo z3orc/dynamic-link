@@ -1,4 +1,4 @@
-module example.com/m/v2
+module github.com/z3orc/dynamic-link
 
 go 1.18
 

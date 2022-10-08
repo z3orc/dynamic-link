@@ -7,9 +7,9 @@ import (
 	"sync"
 	"time"
 
-	"example.com/m/v2/util"
 	"github.com/go-redis/redis/v8"
 	"github.com/tidwall/gjson"
+	"github.com/z3orc/dynamic-link/util"
 )
 
 // PeriodicSync is a function that runs periodically to sync the database with the endpoints
@@ -64,7 +64,7 @@ func initSync(url string) (context.Context, *redis.Client, string,string) {
 		return ctx, client, "", "Could not connect to redis"
 	}
 
-	jsonFromWeb, err := util.GetJson(url)
+	jsonFromWeb, err := util.GetJsonOld(url)
 
 	if err != nil {
 		return ctx, client, jsonFromWeb, "Could not get json from web"
@@ -98,7 +98,7 @@ func syncVanilla() string{
 
 		build := gjson.Get(jsonFromWeb, path)
 
-		buildJson, _ := util.GetJson(build.String())
+		buildJson, _ := util.GetJsonOld(build.String())
 
 		download_url := gjson.Get(buildJson, "downloads.server.url").String()
 		old_download_url, _ := client.HGet(ctx, "vanilla", id).Result()
@@ -133,12 +133,12 @@ func syncPaper() string{
 		id := gjson.Get(jsonFromWeb, fmt.Sprint("versions.", i)).String()
 
 		versionJsonPath := fmt.Sprint("https://api.papermc.io/v2/projects/paper/versions/", id)
-		versionJson, _ := util.GetJson(versionJsonPath)
+		versionJson, _ := util.GetJsonOld(versionJsonPath)
 		buildLength := gjson.Get(versionJson, "builds.#").Int()
 		build := gjson.Get(versionJson, (fmt.Sprint("builds.", buildLength - 1))).Int()
 
 		buildJsonPath := fmt.Sprint(versionJsonPath, "/builds/", build)
-		buildJson, _ := util.GetJson(buildJsonPath)
+		buildJson, _ := util.GetJsonOld(buildJsonPath)
 
 		fileName := gjson.Get(buildJson, "downloads.application.name")
 
@@ -175,7 +175,7 @@ func syncPurpur() string{
 		id := gjson.Get(jsonFromWeb, fmt.Sprint("versions.", i)).String()
 
 		versionJsonPath := fmt.Sprint("https://api.purpurmc.org/v2/purpur/", id)
-		versionJson, _ := util.GetJson(versionJsonPath)
+		versionJson, _ := util.GetJsonOld(versionJsonPath)
 		buildLength := gjson.Get(versionJson, "builds.all.#").Int()
 		build := gjson.Get(versionJson, (fmt.Sprint("builds.all.", buildLength - 1))).Int()
 
