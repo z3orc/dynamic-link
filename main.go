@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
 	"strings"
 	"time"
 
@@ -118,5 +119,5 @@ func main() {
 	})
 
 	// Starting server + logging fatal errors
-	log.Fatal(app.Listen(":8080"))
+	log.Fatal(app.Listen(fmt.Sprint(":",os.Getenv("PORT"))))
 }
