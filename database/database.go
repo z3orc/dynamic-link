@@ -2,7 +2,7 @@ package database
 
 import (
 	"context"
-	"net"
+	"log"
 	"os"
 
 	"github.com/go-redis/redis/v8"
@@ -11,12 +11,14 @@ import (
 var ctx = context.Background()
 
 // Connects & returns a redis client
-func Connect() *redis.Client{
-	client := redis.NewClient(&redis.Options{
-        Addr:     net.JoinHostPort(os.Getenv("REDISHOST"),os.Getenv("REDISPORT")),
-		Password: os.Getenv("REDISPASSWORD"),
-		Username: os.Getenv("REDISUSER"),
-    })
+func Connect() (*redis.Client){
+	url, err := redis.ParseURL(os.Getenv("REDIS_URL"))
+	if err != nil {
+		log.Println("Could not parse url")
+	}
+
+	client := redis.NewClient(url)
+
 	return client
 }
 
