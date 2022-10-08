@@ -32,7 +32,7 @@ func main() {
 
 	// Initialize server
 	app := fiber.New(fiber.Config{
-		Prefork:       true,
+		Prefork:       false,
 		CaseSensitive: false,
 		StrictRouting: false,
 		GETOnly: true,
